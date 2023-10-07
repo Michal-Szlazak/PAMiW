@@ -6,7 +6,40 @@
         xmlns:local="clr-namespace:WeatherApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+        <Window.Resources>
+       
+            <Style x:Key="MyButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="LightGreen"></Setter>
+                <Setter Property="Foreground" Value="DarkGreen"></Setter>
+                <Setter Property="FontSize" Value="18"></Setter>
+                <Setter Property="Margin" Value="6"></Setter>
+                <Setter Property="Padding" Value="5"></Setter>
+            </Style>
+        </Window.Resources>
     <Grid>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Weather App" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="10" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource MyTextBlockStyle}"/>
+
+        <StackPanel Grid.Row="1" Margin="10">
+            <ProgressBar x:Name="pbProgress" Height="20"/>
+            <Label Content="City:"/>
+            <TextBox PlaceholderText="Enter your text here" x:Name="txtCity" AcceptsReturn="True"/>
+            <Button Content="Get temperature" x:Name="btnGetTemperature" />
+            <Button Content="Get temperature Async 1" x:Name="btnGetTemperatureAsnyc1" />
+            <Button Content="Get temperature Async 2" x:Name="btnGetTemperatureAsnyc2" />
+            <Button Content="Get temperature Async 3" x:Name="btnGetTemperatureAsnyc3" />
+            <Button Content="Get temperature Async 4" x:Name="btnGetTemperatureAsnyc4" />
+            <Button Content="Get temperature Async 5" x:Name="btnGetTemperatureAsnyc5" />
+            <Button Content="Get temperature Async 6" x:Name="btnGetTemperatureAsnyc6" />
+        </StackPanel>
     </Grid>
 </Window>
