@@ -29,17 +29,24 @@
 
         <TextBlock Text="Weather App" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="10" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource MyTextBlockStyle}"/>
 
-        <StackPanel Grid.Row="1" Margin="10">
-            <ProgressBar x:Name="pbProgress" Height="20"/>
-            <Label Content="City:"/>
-            <TextBox PlaceholderText="Enter your text here" x:Name="txtCity" AcceptsReturn="True"/>
-            <Button Content="Get temperature" x:Name="btnGetTemperature" />
-            <Button Content="Get temperature Async 1" x:Name="btnGetTemperatureAsnyc1" />
-            <Button Content="Get temperature Async 2" x:Name="btnGetTemperatureAsnyc2" />
-            <Button Content="Get temperature Async 3" x:Name="btnGetTemperatureAsnyc3" />
-            <Button Content="Get temperature Async 4" x:Name="btnGetTemperatureAsnyc4" />
-            <Button Content="Get temperature Async 5" x:Name="btnGetTemperatureAsnyc5" />
-            <Button Content="Get temperature Async 6" x:Name="btnGetTemperatureAsnyc6" />
+        <StackPanel Grid.Row="1" Margin="10" HorizontalAlignment="center">
+            <TextBox x:Name="cityTextBox" AcceptsReturn="True"/>
+            <Button Content="Get location" x:Name="btnGetLocation" Click="btnGetLocationClicked"/>
+            <ListBox x:Name="cityListBox" DisplayMemberPath="LocalizedName" Style="{StaticResource DarkListBoxStyle}"></ListBox>
+            <Label Content="Options" HorizontalAlignment="center"/>
+            <StackPanel>
+                <Button Content="Get Current Conditions" x:Name="btnGetCurrentConditions" Click="btnGetCurrentConditionClicked"/>
+                <Button Content="Get Forecast for 1 day" x:Name="btnGetForecastFor1Day" Click="btnGetForecastFor1DayClicked"/>
+            </StackPanel>
+            <StackPanel>
+
+            </StackPanel>
+        </StackPanel>
+
+
+
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <ListBox x:Name="weatherListBox"></ListBox>
         </StackPanel>
     </Grid>
 </Window>

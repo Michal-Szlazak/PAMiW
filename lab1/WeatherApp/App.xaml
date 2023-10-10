@@ -10,12 +10,16 @@
         <Style x:Key="MyTextBlockStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontWeight" Value="Normal"/>
-            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="Foreground" Value="#FF007ACC"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
 
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="white"/>
+        </Style>
+
         <Style TargetType="Button">
-            <Setter Property="MinWidth" Value="320"/>
+            <Setter Property="MinWidth" Value="220"/>
             <Setter Property="Background" Value="#FF007ACC"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush" Value="#FF007ACC"/>
@@ -50,7 +54,7 @@
 
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="Foreground" Value="black"/>
             <Setter Property="Background" Value="#F0F0F0"/>
             <Setter Property="BorderBrush" Value="#CCCCCC"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -88,6 +92,43 @@
 
         <Style x:Key="RedButtons" TargetType="Button"  BasedOn="{StaticResource RedControl}">
             <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
+
+        <Style x:Key="DarkListBoxStyle" TargetType="ListBox">
+            <Setter Property="Background" Value="#333333"/> <!-- Dark Background Color -->
+            <Setter Property="Foreground" Value="White"/>     <!-- Text Color -->
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="MaxWidth" Value="300"/>
+            <Setter Property="MinHeight" Value="100"/>
+
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Stretch"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#007ACC"/> <!-- Selected Item Color -->
+                                <Setter Property="Foreground" Value="White"/>   <!-- Selected Text Color -->
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
         </Style>
          
     </Application.Resources>
