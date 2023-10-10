@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WeatherApp.Models
 {
@@ -23,7 +20,7 @@ namespace WeatherApp.Models
         public override string ToString()
         {
             return Convert.ToString(
-                "Date: " + LocalObservationDateTime.ToString("dd-MM-yyy hh-mm") +
+                "Date: " + LocalObservationDateTime.ToString("dd-MM-yyy hh:mm") +
                 "\nDescription: " + WeatherText +
                 "\nTemp: " + Temperature.Metric.Value + Temperature.Metric.Unit
                 );
