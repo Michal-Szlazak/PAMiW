@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WeatherApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="570" Width="800">
+        Title="MainWindow" Height="614" Width="800">
     <Window.Resources>
 
         <Style x:Key="MyButtonStyle" TargetType="Button">
@@ -70,7 +70,20 @@
 
 
         <StackPanel Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Margin="0,0,10,0">
-            <ListBox x:Name="weatherListBox" Height="439" Width="376"></ListBox>
+            <ListBox x:Name="weatherListBox" Height="500" Width="376">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Margin" Value="0,5,0,5" />
+                        <!-- Add space between items -->
+                        <Setter Property="BorderBrush" Value="Black" />
+                        <!-- Border color -->
+                        <Setter Property="BorderThickness" Value="1" />
+                        <!-- Border thickness -->
+                        <Setter Property="Padding" Value="5" />
+                        <!-- Padding inside each item -->
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
         </StackPanel>
     </Grid>
 </Window>

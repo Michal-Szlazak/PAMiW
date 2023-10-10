@@ -25,7 +25,7 @@ namespace WeatherApp.Models
             return Convert.ToString(
                 "Date: " + LocalObservationDateTime.ToString("dd-MM-yyy hh-mm") +
                 "\nDescription: " + WeatherText +
-                "Temp: " + Temperature.Metric.Value + Temperature.Metric.Unit
+                "\nTemp: " + Temperature.Metric.Value + Temperature.Metric.Unit
                 );
         }
     }

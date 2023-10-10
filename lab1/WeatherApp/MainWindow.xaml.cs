@@ -19,7 +19,7 @@ namespace WeatherApp
 
         private async void btnAutocompleteClicked(object sender, RoutedEventArgs e)
         {
-            City autocomplete = await locationService.GetAutocomplete(cityTextBox.Text);
+            City? autocomplete = await locationService.GetAutocomplete(cityTextBox.Text);
             if(autocomplete != null) {
                 cityTextBox.Text = autocomplete.LocalizedName;
             }
@@ -27,17 +27,23 @@ namespace WeatherApp
 
         private async void btnGetLocationClicked(object sender, RoutedEventArgs e) {
 
-            City[] cities= await locationService.GetLocations(cityTextBox.Text);
-            cityListBox.ItemsSource = cities;
+            City[]? cities= await locationService.GetLocations(cityTextBox.Text);
+            if(cities != null)
+            {
+                cityListBox.ItemsSource = cities;
+            }
         }
 
         private async void btnGetCurrentConditionClicked(object sender, RoutedEventArgs e) {
 
-            var selectedCity= (City)cityListBox.SelectedItem;
+            var selectedCity = (City)cityListBox.SelectedItem;
             if(selectedCity != null)
             {
-                List<Weather> weathers = await weatherService.GetCurrentConditions(selectedCity.Key);
-                weatherListBox.ItemsSource = weathers;
+                List<Weather>? weathers = await weatherService.GetCurrentConditions(selectedCity.Key);
+                if(weathers != null)
+                {
+                    weatherListBox.ItemsSource = weathers;
+                }
             }
         }
 
@@ -47,8 +53,12 @@ namespace WeatherApp
 
             if (selectedCity != null)
             {
-                List<HistoricalForecast> historicalForecasts = await weatherService.GetHistoricalCurrentConditions6h(selectedCity.Key);
-                weatherListBox.ItemsSource = historicalForecasts;
+                List<HistoricalForecast>? historicalForecasts =
+                    await weatherService.GetHistoricalCurrentConditions6h(selectedCity.Key);
+                if(historicalForecasts != null)
+                {
+                    weatherListBox.ItemsSource = historicalForecasts;
+                }
             }
         }
 
@@ -59,8 +69,12 @@ namespace WeatherApp
 
             if (selectedCity != null)
             {
-                List<HistoricalForecast> historicalForecasts = await weatherService.GetHistoricalCurrentConditions24h(selectedCity.Key);
-                weatherListBox.ItemsSource = historicalForecasts;
+                List<HistoricalForecast>? historicalForecasts = 
+                    await weatherService.GetHistoricalCurrentConditions24h(selectedCity.Key);
+                if(historicalForecasts != null)
+                {
+                    weatherListBox.ItemsSource = historicalForecasts;
+                }
             }
         }
 
@@ -70,9 +84,12 @@ namespace WeatherApp
 
             if(selectedCity != null)
             {
-                var weather = await weatherService.GetDailyForecast(selectedCity.Key, 1);
-                List<DailyForecasts> dailyForecasts = weather.DailyForecasts;
-                weatherListBox.ItemsSource = dailyForecasts;
+                Weather? weather = await weatherService.GetDailyForecast(selectedCity.Key, 1);
+                if(weather != null)
+                {
+                    List<DailyForecasts>? dailyForecasts = weather.DailyForecasts;
+                    weatherListBox.ItemsSource = dailyForecasts;
+                }
             }
         }
 
@@ -83,9 +100,11 @@ namespace WeatherApp
 
             if (selectedCity != null)
             {
-                var weather = await weatherService.GetDailyForecast(selectedCity.Key, 5);
-                List<DailyForecasts> dailyForecasts = weather.DailyForecasts;
-                weatherListBox.ItemsSource = dailyForecasts;
+                Weather? weather = await weatherService.GetDailyForecast(selectedCity.Key, 5);
+                if(weather != null && weather.DailyForecasts != null)
+                {
+                    weatherListBox.ItemsSource = weather.DailyForecasts;
+                }
             }
 
         }
@@ -96,8 +115,11 @@ namespace WeatherApp
 
             if (selectedCity != null)
             {
-                List<HourlyForecasts> hourlyForecasts = await weatherService.GetHourlyForecast(selectedCity.Key, 1);
-                weatherListBox.ItemsSource = hourlyForecasts;
+                List<HourlyForecasts>? hourlyForecasts = await weatherService.GetHourlyForecast(selectedCity.Key, 1);
+                if(hourlyForecasts != null)
+                {
+                    weatherListBox.ItemsSource = hourlyForecasts;
+                }
             }
         }
 
@@ -107,8 +129,11 @@ namespace WeatherApp
 
             if (selectedCity != null)
             {
-                List<HourlyForecasts> hourlyForecasts = await weatherService.GetHourlyForecast(selectedCity.Key, 12);
-                weatherListBox.ItemsSource = hourlyForecasts;
+                List<HourlyForecasts>? hourlyForecasts = await weatherService.GetHourlyForecast(selectedCity.Key, 12);
+                if(hourlyForecasts != null)
+                {
+                    weatherListBox.ItemsSource = hourlyForecasts;
+                }
             }
         }
     }
