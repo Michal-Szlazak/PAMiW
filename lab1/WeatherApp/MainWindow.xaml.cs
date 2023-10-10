@@ -1,25 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WeatherApp.Models;
 using WeatherApp.Services;
 
 namespace WeatherApp
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
 
@@ -30,6 +15,14 @@ namespace WeatherApp
             InitializeComponent();
             locationService = new LocationService();
             weatherService = new WeatherService();
+        }
+
+        private async void btnAutocompleteClicked(object sender, RoutedEventArgs e)
+        {
+            City autocomplete = await locationService.GetAutocomplete(cityTextBox.Text);
+            if(autocomplete != null) {
+                cityTextBox.Text = autocomplete.LocalizedName;
+            }
         }
 
         private async void btnGetLocationClicked(object sender, RoutedEventArgs e) {
@@ -43,14 +36,32 @@ namespace WeatherApp
             var selectedCity= (City)cityListBox.SelectedItem;
             if(selectedCity != null)
             {
-                var weather = await weatherService.GetCurrentConditions(selectedCity.Key);
-                double tempValue = weather.Temperature.Metric.Value;
-                weatherListBox.Items.Add(selectedCity.LocalizedName + " " + Convert.ToString(tempValue));
+                List<Weather> weathers = await weatherService.GetCurrentConditions(selectedCity.Key);
+                weatherListBox.ItemsSource = weathers;
             }
         }
 
-        private async void btnGetHistoricalCurrentConditions(object sender, RoutedEventArgs e) {
-            //TODO
+        private async void btnGetHistoricalCurrentConditions6hClicked(object sender, RoutedEventArgs e) {
+
+            var selectedCity = (City)cityListBox.SelectedItem;
+
+            if (selectedCity != null)
+            {
+                List<HistoricalForecast> historicalForecasts = await weatherService.GetHistoricalCurrentConditions6h(selectedCity.Key);
+                weatherListBox.ItemsSource = historicalForecasts;
+            }
+        }
+
+        private async void btnGetHistoricalCurrentConditions24hClicked(object sender, RoutedEventArgs e)
+        {
+
+            var selectedCity = (City)cityListBox.SelectedItem;
+
+            if (selectedCity != null)
+            {
+                List<HistoricalForecast> historicalForecasts = await weatherService.GetHistoricalCurrentConditions24h(selectedCity.Key);
+                weatherListBox.ItemsSource = historicalForecasts;
+            }
         }
 
         private async void btnGetForecastFor1DayClicked(object sender, RoutedEventArgs e) {
@@ -61,18 +72,44 @@ namespace WeatherApp
             {
                 var weather = await weatherService.GetDailyForecast(selectedCity.Key, 1);
                 List<DailyForecasts> dailyForecasts = weather.DailyForecasts;
+                weatherListBox.ItemsSource = dailyForecasts;
+            }
+        }
 
-                foreach (var dailyForecast in dailyForecasts)
-                {
-                    string info = Convert.ToString(
-                        "Date: " + dailyForecast.date +
-                        "; Max: " + dailyForecast.Temperature.Maximum.Value + dailyForecast.Temperature.Maximum.Unit +
-                        "; Min: " + dailyForecast.Temperature.Minimum.Value
-                        );
-                    weatherListBox.Items.Add(info);
-                }
+        private async void btnGetForecastFor5DaysClicked(object sender, RoutedEventArgs e)
+        {
+
+            var selectedCity = (City)cityListBox.SelectedItem;
+
+            if (selectedCity != null)
+            {
+                var weather = await weatherService.GetDailyForecast(selectedCity.Key, 5);
+                List<DailyForecasts> dailyForecasts = weather.DailyForecasts;
+                weatherListBox.ItemsSource = dailyForecasts;
             }
 
+        }
+
+        private async void btnGetForecastFor1HourClicked(object sender, RoutedEventArgs e)
+        {
+            var selectedCity = (City)cityListBox.SelectedItem;
+
+            if (selectedCity != null)
+            {
+                List<HourlyForecasts> hourlyForecasts = await weatherService.GetHourlyForecast(selectedCity.Key, 1);
+                weatherListBox.ItemsSource = hourlyForecasts;
+            }
+        }
+
+        private async void btnGetForecastFor12HoursClicked(object sender, RoutedEventArgs e)
+        {
+            var selectedCity = (City)cityListBox.SelectedItem;
+
+            if (selectedCity != null)
+            {
+                List<HourlyForecasts> hourlyForecasts = await weatherService.GetHourlyForecast(selectedCity.Key, 12);
+                weatherListBox.ItemsSource = hourlyForecasts;
+            }
         }
     }
 }
