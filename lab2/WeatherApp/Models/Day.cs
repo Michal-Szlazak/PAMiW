@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeatherApp.Models
 {
-    internal class Day
+    public class Day
     {
         public required string ShortPhrase;
         public required string LongPhrase;

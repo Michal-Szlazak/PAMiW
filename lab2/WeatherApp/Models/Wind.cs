@@ -1,11 +1,11 @@
 ﻿namespace WeatherApp.Models
 {
-    internal class Wind
+    public class Wind
     {
         public Speed Speed;
     }
 
-    internal class Speed
+    public class Speed
     {
         public double Value;
         public string? Unit;

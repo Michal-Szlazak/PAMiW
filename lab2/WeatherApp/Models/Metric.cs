@@ -1,6 +1,6 @@
 ﻿namespace WeatherApp.Models
 {
-    internal class Metric
+    public class Metric
     {
         public double Value { get; set; }
         public required string Unit { get; set; }

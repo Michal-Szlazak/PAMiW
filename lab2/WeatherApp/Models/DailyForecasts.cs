@@ -2,7 +2,7 @@ using System;
 
 namespace WeatherApp.Models {
 
-    internal class DailyForecasts {
+    public class DailyForecasts {
 
         public DateTime date { get; set; }
         public required Temperature Temperature { get; set; }

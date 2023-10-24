@@ -2,7 +2,7 @@
 
 namespace WeatherApp.Models
 {
-    internal class HistoricalForecast
+    public class HistoricalForecast
     {
         public DateTime LocalObservationDateTime;
         public required string WeatherText { get; set; }
@@ -35,25 +35,25 @@ namespace WeatherApp.Models
         }
     }
 
-    internal class ApparentTemperature
+    public class ApparentTemperature
     {
         public required Metric Metric { get; set; }
         public required Imperial Imperial { get; set; }
     }
 
-    internal class TemperatureSummary
+    public class TemperatureSummary
     {
         public required Past6HourRange Past6HourRange { get; set; }
         public required Past24HourRange Past24HourRange { get; set; }
     }
 
-    internal class Past6HourRange
+    public class Past6HourRange
     {
         public required Maximum Maximum { get; set; }
         public required Minimum Minimum { get; set;}
     }
 
-    internal class Past24HourRange
+    public class Past24HourRange
     {
         public required Maximum Maximum { get; set; }
         public required Minimum Minimum { get; set; }

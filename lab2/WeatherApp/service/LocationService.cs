@@ -6,7 +6,7 @@ using WeatherApp.error;
 
 namespace WeatherApp.Services
 {
-    internal class LocationService
+    internal class LocationService : ILocationsService
     {
         private const string base_url = "http://dataservice.accuweather.com";
         private const string city_endpoint = "locations/v1/cities/search?apikey={0}&q={1}&language{2}";

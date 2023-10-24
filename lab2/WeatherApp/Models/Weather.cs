@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace WeatherApp.Models
 {
-    internal class Weather
+    public class Weather
     {
         public DateTime LocalObservationDateTime { get; set; }
         public required int EpochTime { get; set; }

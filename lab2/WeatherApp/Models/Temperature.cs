@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace WeatherApp.Models
 {
-    internal class Temperature
+    public class Temperature
     {
         public Metric? Metric { get; set; }
         public Imperial? Imperial { get; set; }
@@ -15,7 +15,7 @@ namespace WeatherApp.Models
 
     }
 
-    internal class RealFeelTemperature {
+    public class RealFeelTemperature {
         public Metric? Metric { get; set; }
         public Imperial? Imperial { get; set; }
         public Minimum? Minimum { get; set; }

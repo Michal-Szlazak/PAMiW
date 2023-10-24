@@ -2,7 +2,7 @@
 
 namespace WeatherApp.Models
 {
-    internal class HourlyForecasts
+    public class HourlyForecasts
     {
         public DateTime DateTime { get; set; }
         public string IconPhrase { get; set; }

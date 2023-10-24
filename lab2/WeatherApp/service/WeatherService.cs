@@ -7,7 +7,7 @@ using WeatherApp.error;
 
 namespace WeatherApp.Services
 {
-    internal class WeatherService
+    internal class WeatherService : IWeatherService
     {
         private const string base_url = "http://dataservice.accuweather.com";
         private const string current_conditions_endpoint = "currentconditions/v1/{0}?apikey={1}&language={2}";
@@ -18,7 +18,7 @@ namespace WeatherApp.Services
         private const string api_key = "hx3nS6VG69ijuDHcnF3E5CHuhx6Mdum0";
         private const string language = "en";
 
-        public async Task<List<Weather>?> GetCurrentConditions(string cityKey)
+        public async Task<Weather[]> GetCurrentConditions(string cityKey)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace WeatherApp.Services
                 {
                     var response = await client.GetAsync(uri);
                     string json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<Weather>>(json);
+                    return JsonConvert.DeserializeObject<Weather[]>(json);
                 }
             } catch (JsonReaderException)
             {
@@ -113,7 +113,7 @@ namespace WeatherApp.Services
             }
         }
 
-        public async Task<List<HourlyForecasts>?> GetHourlyForecast(string cityKey, int hours)
+        public async Task<HourlyForecasts[]?> GetHourlyForecast(string cityKey, int hours)
         {
             try
             {
@@ -122,7 +122,7 @@ namespace WeatherApp.Services
                 {
                     var response = await client.GetAsync(uri);
                     string json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<HourlyForecasts>>(json);
+                    return JsonConvert.DeserializeObject<HourlyForecasts[]>(json);
                 }
             }
             catch (JsonReaderException)
