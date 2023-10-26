@@ -34,5 +34,10 @@ namespace WeatherApp.ViewModels
             }
         }
 
+        public async void DeleteProduct()
+        {
+            
+        }
+
     }
 }

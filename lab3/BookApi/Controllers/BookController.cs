@@ -18,7 +18,19 @@ namespace BookApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Book>>>> GetProducts()
+        public async Task<ActionResult<ServiceResponse<List<Book>>>> GetBooks()
+        {
+
+            var result = await _bookService.GetBooksAsync();
+
+            if (result.Success)
+                return Ok(result);
+            else
+                return StatusCode(500, $"Internal server error {result.Message}");
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<ServiceResponse<List<Book>>>> DeleteBook()
         {
 
             var result = await _bookService.GetBooksAsync();

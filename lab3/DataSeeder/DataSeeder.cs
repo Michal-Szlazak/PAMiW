@@ -10,6 +10,8 @@ namespace DataSeeder
 {
     public class ProductSeeder
     {
+
+
         public static List<Book> GenerateProductData()
         {
             var bookFaker = new Faker<Book>()

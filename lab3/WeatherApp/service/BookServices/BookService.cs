@@ -30,5 +30,13 @@ namespace WeatherApp.service.BookServices
             var result = JsonConvert.DeserializeObject<ServiceResponse<List<Book>>>(json);
             return result;
         }
+
+        public async Task<ServiceResponse<Book>> DeleteBook()
+        {
+            var response = await _httpClient.GetAsync(_appSettings.BaseBookEndpoint.DeleteBookEndpoint);
+            var json = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<ServiceResponse<Book>>(json);
+            return result;
+        }
     }
 }
