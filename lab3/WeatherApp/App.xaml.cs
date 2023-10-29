@@ -44,8 +44,6 @@ namespace WeatherApp
 
         private AppSettings ConfigureAppSettings(IServiceCollection services)
         {
-            // pobranie appsettings z konfiguracji i zmapowanie na klase AppSettings 
-            //Microsoft.Extensions.Options.ConfigurationExtensions
             var appSettings = _configuration.GetSection(nameof(AppSettings));
             var appSettingsSection = appSettings.Get<AppSettings>();
             services.Configure<AppSettings>(appSettings);
@@ -54,7 +52,6 @@ namespace WeatherApp
 
         private void ConfigureAppServices(IServiceCollection services)
         {
-            // konfiguracja serwisów 
             services.AddSingleton<IWeatherService, WeatherService>();
             services.AddSingleton<IBookService, BookService>();
             services.AddSingleton<ILocationsService, LocationService>();
@@ -70,6 +67,7 @@ namespace WeatherApp
         {
             services.AddTransient<MainWindow>();
             services.AddTransient<BookStoreView>();
+            services.AddTransient<BookDetailsView>();
         }
 
         private void ConfigureHttpClients(IServiceCollection services, AppSettings appSettingsSection)

@@ -29,16 +29,39 @@ namespace BookApi.Controllers
                 return StatusCode(500, $"Internal server error {result.Message}");
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<ServiceResponse<List<Book>>>> DeleteBook()
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<Book>>> UpdateBook([FromBody] Book book)
         {
 
-            var result = await _bookService.GetBooksAsync();
+            var result = await _bookService.UpdateBookAsync(book);
 
             if (result.Success)
                 return Ok(result);
             else
                 return StatusCode(500, $"Internal server error {result.Message}");
         }
+
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<Book>>> CreateBook([FromBody] Book book)
+        {
+            var result = await _bookService.CreateBookAsync(book);
+
+            if (result.Success)
+                return Ok(result);
+            else
+                return StatusCode(500, $"Internal server error {result.Message}");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<bool>>> DeleteBook([FromRoute] int id)
+        {
+            var result = await _bookService.DeleteBookAsync(id);
+
+            if (result.Success)
+                return Ok(result);
+            else
+                return StatusCode(500, $"Internal server error {result.Message}");
+        }
+
     }
 }

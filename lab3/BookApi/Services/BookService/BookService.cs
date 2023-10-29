@@ -7,6 +7,25 @@ namespace BookApi.Services.BookService
 {
     public class BookService : IBookService
     {
+
+        public async Task<ServiceResponse<Book>> CreateBookAsync(Book product)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception)
+            {
+                return new ServiceResponse<Book>()
+                {
+                    Data = null,
+                    Success = false,
+                    Message = "Cannot create product"
+                };
+            }
+
+        }
+
         public async Task<ServiceResponse<List<Book>>> GetBooksAsync()
         {
             try
@@ -31,26 +50,31 @@ namespace BookApi.Services.BookService
             }
         }
 
-        public async Task<ServiceResponse<Book>> DeleteBookAsync(Book book)
+        public async Task<ServiceResponse<bool>> DeleteBookAsync(int id)
         {
             try
             {
-                var response = new ServiceResponse<Book>()
-                {
-                    Data = ProductSeeder.GenerateProductData(),
-                    Message = "Ok",
-                    Success = true
-                };
+                throw new NotImplementedException();
+            } catch (Exception)
+            {
+                return new ServiceResponse<bool>() { Data = false, Success = false };
+            }
 
-                return response;
+        }
+
+        public async Task<ServiceResponse<Book>> UpdateBookAsync(Book product)
+        {
+            try
+            {
+                throw new NotImplementedException();
             }
             catch (Exception)
             {
-                return new ServiceResponse<Book>()
+                return new ServiceResponse<Book>
                 {
                     Data = null,
-                    Message = "Problem with dataseeder library",
-                    Success = false
+                    Success = false,
+                    Message = "An error occured while updating product"
                 };
             }
         }

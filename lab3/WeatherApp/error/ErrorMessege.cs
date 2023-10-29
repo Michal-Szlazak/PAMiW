@@ -7,12 +7,11 @@ using System.Windows;
 
 namespace WeatherApp.error
 {
-    internal class ErrorMessege
+    internal class ErrorMessage
     {
-        public static void showMessege()
+        public static void showMessage(string message)
         {
-            MessageBox.Show("We encountered an error while trying to show the data.",
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

@@ -148,10 +148,10 @@ namespace WeatherApp.ViewModels
         public void OpenBookStoreWindow()
         {
             BookStoreView shopProductsView = _serviceProvider.GetService<BookStoreView>();
-            BooksViewModel productsViewModel = _serviceProvider.GetService<BooksViewModel>();
+            BooksViewModel booksViewModel = _serviceProvider.GetService<BooksViewModel>();
 
             shopProductsView.Show();
-            productsViewModel.GetProducts();
+            booksViewModel.GetBooks();
         }
     }
 }

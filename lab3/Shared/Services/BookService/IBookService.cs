@@ -10,5 +10,8 @@ namespace Shared.Services.BookService
     public interface IBookService
     {
         Task<ServiceResponse<List<Book>>> GetBooksAsync();
+        Task<ServiceResponse<Book>> UpdateBookAsync(Book product);
+        Task<ServiceResponse<bool>> DeleteBookAsync(int id);
+        Task<ServiceResponse<Book>> CreateBookAsync(Book product);
     }
 }

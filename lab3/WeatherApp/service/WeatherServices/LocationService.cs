@@ -30,12 +30,12 @@ namespace WeatherApp.service.WeatherServices
             }
             catch (JsonReaderException)
             {
-                ErrorMessege.showMessege();
+                ErrorMessage.showMessage("Encountered an error while trying to get the data.");
                 return null;
             }
             catch (JsonSerializationException)
             {
-                ErrorMessege.showMessege();
+                ErrorMessage.showMessage("Encountered an error while trying to get the data.");
                 return null;
             }
         }
@@ -55,12 +55,12 @@ namespace WeatherApp.service.WeatherServices
             }
             catch (JsonReaderException)
             {
-                ErrorMessege.showMessege();
+                ErrorMessage.showMessage("Encountered an error while trying to get the data.");
                 return null;
             }
             catch (JsonSerializationException)
             {
-                ErrorMessege.showMessege(); ;
+                ErrorMessage.showMessage("Encountered an error while trying to get the data."); ;
                 return null;
             }
         }
