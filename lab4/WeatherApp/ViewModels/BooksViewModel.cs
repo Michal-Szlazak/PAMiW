@@ -43,11 +43,11 @@ namespace WeatherApp.ViewModels
         public async Task GetBooks()
         {
             
-            var BooksResult = await _bookService.GetBooksAsync();
+            var BooksResult = await _bookService.GetBooksAsync(1, 1);
             if (BooksResult.Success)
             {
                 Books.Clear();
-                foreach (var p in BooksResult.Data)
+                foreach (var p in BooksResult.Data.Data)
                 {
                     Books.Add(p);
                 }

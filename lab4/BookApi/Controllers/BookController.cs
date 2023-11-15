@@ -19,11 +19,11 @@ namespace BookApi.Controllers
             _bookService = bookService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Book>>>> GetBooks()
+        [HttpGet("{page}/{size}")]
+        public async Task<ActionResult<ServiceResponse<List<Book>>>> GetBooks([FromRoute] int page, [FromRoute] int size)
         {
 
-            var result = await _bookService.GetBooksAsync();
+            var result = await _bookService.GetBooksAsync(page, size);
 
             if (result.Success)
                 return Ok(result);
