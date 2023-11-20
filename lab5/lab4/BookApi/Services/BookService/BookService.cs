@@ -48,7 +48,7 @@ namespace BookApi.Services.BookService
                     .Take(pageSize)
                     .ToListAsync();
 
-                var paginationResponse = new PaginationResponse<Book>
+                    var paginationResponse = new PaginationResponse<Book>
                 {
                     Data = books,
                     TotalItems = totalBooks,

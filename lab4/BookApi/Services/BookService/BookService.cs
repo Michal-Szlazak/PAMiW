@@ -37,27 +37,40 @@ namespace BookApi.Services.BookService
 
         }
 
-        public async Task<ServiceResponse<List<Book>>> GetBooksAsync()
+        public async Task<ServiceResponse<PaginationResponse<Book>>> GetBooksAsync(int pageNumber, int pageSize)
         {
-            var Books = await _dataContext.Books.ToListAsync();
-
             try
             {
-                var response = new ServiceResponse<List<Book>>()
+                var totalBooks = await _dataContext.Books.CountAsync();
+
+                var books = await _dataContext.Books
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                    var paginationResponse = new PaginationResponse<Book>
                 {
-                    Data = Books,
-                    Message = "Ok",
-                    Success = true
+                    Data = books,
+                    TotalItems = totalBooks,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
                 };
 
-                return response;
+                return new ServiceResponse<PaginationResponse<Book>>
+                {
+                    Data = paginationResponse,
+                    Success = true,
+                    Message = ""
+                };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new ServiceResponse<List<Book>>()
+                // Log the exception details
+                Console.WriteLine($"Error: {ex.Message}");
+                return new ServiceResponse<PaginationResponse<Book>>
                 {
                     Data = null,
-                    Message = "Problem with dataseeder library",
+                    Message = "An error occurred while fetching paginated Books",
                     Success = false
                 };
             }

@@ -25,18 +25,18 @@ namespace WeatherApp.service.BookServices
             _appSettings = appSettings.Value;
         }
 
-        public async Task<ServiceResponse<List<Book>>> GetBooksAsync()
+        public async Task<ServiceResponse<PaginationResponse<Book>>> GetBooksAsync(int page, int size)
         {
             var response = await _httpClient.GetAsync(_appSettings.BaseBookEndpoint.GetAllBooksEndpoint);
 
             if(response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<ServiceResponse<List<Book>>>(json);
+                var result = JsonConvert.DeserializeObject<ServiceResponse<PaginationResponse<Book>>>(json);
                 return result;
             } else
             {
-                return new ServiceResponse<List<Book>>() { Data = null, Success = false, Message = "Failed to get the books." };
+                return new ServiceResponse<PaginationResponse<Book>>() { Data = null, Success = false, Message = "Failed to get the books." };
             }
         }
 
