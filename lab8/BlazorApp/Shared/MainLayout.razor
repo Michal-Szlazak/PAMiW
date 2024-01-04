@@ -8,12 +8,13 @@
 @inject NavigationManager NavigationManager
 
 <div class="page">
-    <div class="sidebar">
+
+    <div class="sidebar my-sidebar">
         <NavMenu />
     </div>
 
     <main>
-        <div class="top-row">
+        <div class="top-row d-flex">
             <AuthorizeView>
                 <Authorized>
                     <div class="user-info">
@@ -27,7 +28,6 @@
                 </NotAuthorized>
             </AuthorizeView>
 
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank" class="about-link">About</a>
         </div>
 
         <article class="content">
@@ -85,11 +85,16 @@
         border: none;
         cursor: pointer;
         border-radius: 5px;
+        margin: 10px;
     }
 
     .about-link {
         text-decoration: none;
         color: #007bff;
+    }
+
+    .my-sidebar {
+        width: 100%;
     }
 </style>
 

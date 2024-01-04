@@ -12,12 +12,26 @@
 else
 {
     <BookForm book="book" OnValidSubmit="HandleValidSubmit"></BookForm>
-    <button class="btn btn-danger" @onclick=HandleDelete>Delete</button>
+    @if (isLoading)
+    {
+        <Loading />
+    }
+    <button class="btn btn-danger my-btn" @onclick=HandleDelete>Delete</button>
+
+    <style>
+        .my-btn {
+            width: 120px; /* Adjust width as needed */
+            margin: 10px; /* Adjust margin as needed */
+            font-size: 18px;
+        }
+    </style>
 }
 
 
 
 @code {
+    private bool isLoading = false;
+
     [Parameter]
     public int Id { get; set; }
 
@@ -26,28 +40,34 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        isLoading = true;
         var response = await BookService.GetBookByIdAsync(Id);
         if (response.Success)
             book = response.Data;
         else
             message = response.Message;
+        isLoading = false;
     }
 
     async Task HandleValidSubmit()
     {
+        isLoading = true;
         var response = await BookService.UpdateBookAsync(book);
         if (response.Success)
             NavigationManager.NavigateTo("/books/booksList");
         else
             message = response.Message;
+        isLoading = false;
     }
 
     async Task HandleDelete()
     {
+        isLoading = true;
         var response = await BookService.DeleteBookAsync(Id);
         if (response.Success)
             NavigationManager.NavigateTo("/books/booksList");
         else
             message = response.Message;
+        isLoading = false;
     }
 }

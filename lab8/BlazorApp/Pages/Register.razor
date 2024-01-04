@@ -30,6 +30,11 @@
     </div>
 
     <button type="submit">Register</button>
+
+    @if (isLoading)
+    {
+        <Loading />
+    }
 </EditForm>
 
 <p>@message</p>
@@ -79,11 +84,14 @@
 </style>
 
 @code {
+    private bool isLoading = false;
+
     UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
     string message = string.Empty;
 
     async Task HandleRegistration()
     {
+        isLoading = true;
         var result = await AuthService.Register(userRegisterDTO);
         if (result.Success)
         {
@@ -93,6 +101,7 @@
         {
             message  = result.Message;
         }
+        isLoading = false;
     }
 
 }

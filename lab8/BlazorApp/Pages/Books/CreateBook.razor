@@ -12,19 +12,27 @@
 else
 {
     <BookForm book="Book" OnValidSubmit="HandleValidSubmit"></BookForm>
+    @if (isLoading)
+    {
+        <Loading />
+    }
 }
 
 @code {
+    private bool isLoading = false;
+
     private Book Book = new Book();
     private string? message = null;
 
     async Task HandleValidSubmit()
     {
+        isLoading = true;
         var response = await BookService.CreateBookAsync(Book);
         if (response.Success)
             NavigationManager.NavigateTo("/books/booksList");
         else
             message = response.Message;
+        isLoading = false;
     }
 
 
