@@ -1,0 +1,103 @@
+﻿@using Blazored.LocalStorage
+@using System.Security.Claims
+@inherits LayoutComponentBase
+@attribute [Authorize]
+
+@inject ILocalStorageService LocalStorageService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row">
+            <AuthorizeView>
+                <Authorized>
+                    <div class="user-info">
+                        <span class="user-info-item">Logged in: @context.User.Identity.Name</span>
+                    </div>
+                    <button class="logout-button" @onclick="Logout">Logout</button>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="/login" class="action-link">Login</a>
+                    <a href="/register" class="action-link">Register</a>
+                </NotAuthorized>
+            </AuthorizeView>
+
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank" class="about-link">About</a>
+        </div>
+
+        <article class="content">
+            @Body
+        </article>
+    </main>
+</div>
+
+<style>
+    .page {
+        display: flex;
+    }
+
+    .sidebar {
+        width: 200px;
+        background-color: #f8f9fa;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: #007bff;
+        height: 100px;
+    }
+
+    .user-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .user-info-item {
+        margin-right: 10px;
+        padding: 10px 20px;
+        background-color: lightblue;
+        border-radius: 5px;
+    }
+
+    .logout-button {
+        background-color: #dc3545;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .action-link {
+        background-color: blueviolet;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .about-link {
+        text-decoration: none;
+        color: #007bff;
+    }
+</style>
+
+@code {
+    private async Task Logout()
+    {
+        await LocalStorageService.RemoveItemAsync("authToken");
+        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        NavigationManager.NavigateTo("/login");
+    }
+}

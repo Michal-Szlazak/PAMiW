@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyMauiApp.MainPage"
+             BackgroundColor="DarkGray">
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="20">
+            
+            <StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="Start">
+                <Button Text="Logout" Command="{Binding LogoutCommand}" 
+                       HorizontalOptions="End"
+                       VerticalOptions="Center"
+                       IsVisible="{Binding IsUserAuthenticated}"/>
+                <Button Text="Login" Command="{Binding LoginCommand}" 
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        IsVisible="{Binding IsUserNotAuthenticated}"/>
+                <Button Text="Register" Command="{Binding RegisterCommand}" 
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Margin="0,0,10,0"
+                        IsVisible="{Binding IsUserNotAuthenticated}"/>
+            </StackLayout>
+
+            <Label Text="Book List" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" />
+
+            <Button Text="Create Book" Command="{Binding CreateBookCommand}" 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    Margin="0,20,0,0"/>
+
+            <!-- CollectionView for Books -->
+            <CollectionView x:Name="BooksCollectionView"
+                ItemsSource="{Binding Books}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Book Item Layout with Edit and Delete buttons -->
+                        <StackLayout Margin="5" Padding="10" BackgroundColor="LightBlue">
+                            <Label Text="{Binding Title}" FontSize="20" FontAttributes="Bold" />
+                            <Label Text="{Binding Author}" FontSize="16" />
+
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Spacing="10">
+                                <Button Text="Show Details" 
+                                        Command="{Binding BindingContext.ShowDetailsCommand, Source={x:Reference BooksCollectionView}}"
+                                        CommandParameter="{Binding .}" />
+                                <!-- Edit Button -->
+                                <Button Text="Edit" 
+                                    Command="{Binding BindingContext.EditBookCommand, Source={x:Reference BooksCollectionView}}"
+                                    CommandParameter="{Binding .}" />
+                                <!-- Delete Button -->
+                                <Button Text="Delete"
+                                        Command="{Binding BindingContext.DeleteBookCommand, Source={x:Reference BooksCollectionView}}"
+                                        CommandParameter="{Binding .}"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Pagination Controls -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Spacing="10">
+                <Button Text="Previous" Command="{Binding LoadPreviousPageCommand}" />
+                <Label Text="{Binding CurrentPage}" FontSize="18" VerticalOptions="CenterAndExpand" />
+                <Button Text="Next" Command="{Binding LoadNextPageCommand}" />
+            </StackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

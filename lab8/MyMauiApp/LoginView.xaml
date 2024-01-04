@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyMauiApp.LoginView"
+             Title="LoginView"
+             BackgroundColor="DarkGray">
+    <VerticalStackLayout Spacing="15" Padding="20">
+        <Label 
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <!-- Username Entry -->
+        <Entry Placeholder="Email" 
+               x:Name="UsernameEntry" 
+               Text="{Binding UserLoginDTO.Email}"
+               HorizontalOptions="FillAndExpand" />
+
+        <!-- Password Entry -->
+        <Entry Placeholder="Password" 
+               x:Name="PasswordEntry" 
+               Text="{Binding UserLoginDTO.Password}"
+               IsPassword="True" 
+               HorizontalOptions="FillAndExpand" />
+
+        <Label Text="{Binding message}" TextColor="Red"></Label>
+
+        <!-- Login Button -->
+        <Button Text="Login" 
+                Command="{Binding LoginCommand}" 
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="CenterAndExpand"
+                Margin="0,20,0,0" />
+
+        <!-- Register Button -->
+        <Button Text="Register" 
+                Command="{Binding RegisterCommand}" 
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="CenterAndExpand"
+                Margin="0,10,0,0" />
+
+        <Button Text="Return" Command="{Binding ReturnCommand}" 
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="CenterAndExpand"
+                Margin="0,20,0,0" />
+    </VerticalStackLayout>
+</ContentPage>
