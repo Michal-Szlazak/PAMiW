@@ -40,7 +40,7 @@ namespace MyMauiApp
         {
             var appSettingsSection = new AppSettings()
             {
-                BaseAPIUrl = "http://localhost:5093",
+                BaseAPIUrl = "https://pamiw-restapi.azurewebsites.net",
                 BaseBookEndpoint = new BaseBookEndpoint()
                 {
                     Base_url = "api/Book/",
