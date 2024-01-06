@@ -18,6 +18,8 @@ namespace MyMauiApp.ViewModels
 
         private readonly IBookService _bookService;
         private readonly IAuthService _authService;
+        private readonly IConnectivity _connectivity;
+        private MessageBox _messageBox;
 
         private ObservableCollection<Book> _books;
         private int _pageSize = 10;
@@ -45,25 +47,49 @@ namespace MyMauiApp.ViewModels
         bool isUserAuthenticated;
         [ObservableProperty]
         bool isUserNotAuthenticated;
+        [ObservableProperty]
+        bool isLoading = false;
+        [ObservableProperty]
+        string email;
 
-        public BooksViewModel(IBookService bookService, IAuthService authService)
+        public BooksViewModel(IBookService bookService, IAuthService authService, IConnectivity connectivity)
         {
             _bookService = bookService;
             _authService = authService;
+            _connectivity = connectivity;
             Books = new ObservableCollection<Book>();
             isUserAuthenticated = !string.IsNullOrEmpty(SecureStorage.GetAsync("AuthToken").Result);
             isUserNotAuthenticated = !isUserAuthenticated;
+            _messageBox = new MessageBox();
             Init();
         }
 
         public async void Init()
         {
+            string email = SecureStorage.GetAsync("email").Result;
+            if(email != null)
+            {
+                this.Email = email;
+            }
+
+            IsLoading = true;
             await GetBooks();
+            IsLoading = false;
         }
+
+
 
         public async Task GetBooks()
         {
+            IsLoading = true;
             Books.Clear();
+
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
 
             var booksResult = await _bookService.GetBooksAsync(CurrentPage, PageSize);
             if (booksResult.Success)
@@ -73,6 +99,7 @@ namespace MyMauiApp.ViewModels
                     Books.Add(book);
                 }
             }
+            IsLoading = false;
         }
 
         [RelayCommand]
@@ -95,6 +122,14 @@ namespace MyMauiApp.ViewModels
         [RelayCommand]
         public async Task CreateBook()
         {
+
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
+
             string role = await GetUserRoleAsync();
             if (!"Admin".Equals(role))
             {
@@ -113,6 +148,12 @@ namespace MyMauiApp.ViewModels
         [RelayCommand]
         public async Task EditBook(Book book)
         {
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
             string role = await GetUserRoleAsync();
             if (!"Admin".Equals(role))
             {
@@ -131,13 +172,19 @@ namespace MyMauiApp.ViewModels
         [RelayCommand]
         public async Task DeleteBook(Book book)
         {
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
             string role = await GetUserRoleAsync();
             if (!"Admin".Equals(role))
             {
                 await Shell.Current.GoToAsync(nameof(ErrorView), true);
             } else
             {
-                await _bookService.DeleteBookAsync(book.Id);
+                await _bookService.DeleteBookAsync(book.Id, "");
                 await GetBooks();
             }
             
@@ -146,6 +193,13 @@ namespace MyMauiApp.ViewModels
         [RelayCommand]
         public async Task ShowDetails(Book book)
         {
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
+
             string role = await GetUserRoleAsync();
             if("".Equals(role))
             {
@@ -164,6 +218,13 @@ namespace MyMauiApp.ViewModels
         [RelayCommand]
         public async Task Login()
         {
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
+
             await Shell.Current.GoToAsync(nameof(LoginView), true, new Dictionary<string, object>
             {
                 {nameof(BooksViewModel), this}
@@ -173,12 +234,26 @@ namespace MyMauiApp.ViewModels
         [RelayCommand]
         public async Task Register()
         {
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
             await Shell.Current.GoToAsync(nameof(RegisterView), true);
         }
 
         [RelayCommand]
         public async Task Logout()
         {
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
+
+            SecureStorage.Remove("email");
             SecureStorage.Remove("AuthToken");
 
             SetProperty(ref isUserAuthenticated, false, nameof(IsUserAuthenticated));

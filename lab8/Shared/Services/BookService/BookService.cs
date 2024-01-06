@@ -1,8 +1,10 @@
 ﻿
 
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProjectShared.BookStore;
 using ProjectShared.Configuration;
 
@@ -38,8 +40,9 @@ namespace ProjectShared.Services.BookService
             }
         }
 
-        public async Task<ServiceResponse<Book>> UpdateBookAsync(Book book)
+        public async Task<ServiceResponse<Book>> UpdateBookAsync(Book book, string token)
         {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var response = await _httpClient.PutAsJsonAsync("api/Book", book);
 
             if(response.IsSuccessStatusCode)
@@ -52,8 +55,9 @@ namespace ProjectShared.Services.BookService
             }
         }
 
-        public async Task<ServiceResponse<bool>> DeleteBookAsync(int id)
+        public async Task<ServiceResponse<bool>> DeleteBookAsync(int id, string token)
         {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var response = await _httpClient.DeleteAsync("api/Book/" + $"{id}");
 
             if(response.IsSuccessStatusCode)
@@ -65,8 +69,9 @@ namespace ProjectShared.Services.BookService
             }
         }
 
-        public async Task<ServiceResponse<Book>> CreateBookAsync(Book product)
+        public async Task<ServiceResponse<Book>> CreateBookAsync(Book product, string token)
         {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var response = await _httpClient.PostAsJsonAsync("api/Book", product);
 
             if(response.IsSuccessStatusCode)
@@ -79,8 +84,9 @@ namespace ProjectShared.Services.BookService
             }
         }
 
-        public async Task<ServiceResponse<Book>> GetBookByIdAsync(int id)
+        public async Task<ServiceResponse<Book>> GetBookByIdAsync(int id, string token)
         {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var response = await _httpClient.GetAsync("api/Book/" + id);
             if (!response.IsSuccessStatusCode)
                 return new ServiceResponse<Book>

@@ -13,14 +13,20 @@ namespace MyMauiApp.ViewModels
     public partial class RegisterViewModel : ObservableObject
     {
         private readonly IAuthService _authService;
+        private readonly IConnectivity _connectivity;
+        private MessageBox _messageBox;
 
 
         [ObservableProperty]
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
+        [ObservableProperty]
+        bool isLoading = false;
 
-        public RegisterViewModel(IAuthService authService)
+        public RegisterViewModel(IAuthService authService, IConnectivity connectivity)
         {
             _authService = authService;
+            _connectivity = connectivity;
+            _messageBox = new MessageBox();
         }
 
         [ObservableProperty]
@@ -29,6 +35,15 @@ namespace MyMauiApp.ViewModels
         [RelayCommand]
         public async Task Register()
         {
+            IsLoading = true;
+
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
+
             var result = await _authService.Register(userRegisterDTO);
 
             if (result.Success)
@@ -37,8 +52,9 @@ namespace MyMauiApp.ViewModels
             }
             else
             {
-                message = result.Message;
+                Message = "Wrong data";
             }
+            IsLoading = true;
         }
 
         [RelayCommand]

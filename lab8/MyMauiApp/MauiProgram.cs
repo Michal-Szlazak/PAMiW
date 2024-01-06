@@ -55,6 +55,7 @@ namespace MyMauiApp
         {
             services.AddSingleton<IBookService, BookService>();
             services.AddSingleton<IAuthService, AuthService>();
+            services.AddSingleton<IConnectivity>(Connectivity.Current);
         }
 
         private static void ConfigureViewModels(IServiceCollection services)

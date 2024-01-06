@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookApi.Services.BookService;
 using ProjectShared.BookStore;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookApi.Controllers
 {
@@ -32,6 +32,7 @@ namespace BookApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<ServiceResponse<Book>>> GetProduct(int id)
         {
 
@@ -44,6 +45,7 @@ namespace BookApi.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult<ServiceResponse<Book>>> UpdateBook([FromBody] Book book)
         {
 
@@ -56,6 +58,7 @@ namespace BookApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ServiceResponse<Book>>> CreateBook([FromBody] Book book)
         {
             var result = await _bookService.CreateBookAsync(book);
@@ -67,6 +70,7 @@ namespace BookApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<ServiceResponse<bool>>> DeleteBook([FromRoute] int id)
         {
             var result = await _bookService.DeleteBookAsync(id);

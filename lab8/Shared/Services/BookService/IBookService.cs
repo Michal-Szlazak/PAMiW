@@ -10,10 +10,10 @@ namespace ProjectShared.Services.BookService
     public interface IBookService
     {
         Task<ServiceResponse<PaginationResponse<Book>>> GetBooksAsync(int page, int size);
-        Task<ServiceResponse<Book>> UpdateBookAsync(Book product);
-        Task<ServiceResponse<bool>> DeleteBookAsync(int id);
-        Task<ServiceResponse<Book>> GetBookByIdAsync(int id);
-        Task<ServiceResponse<Book>> CreateBookAsync(Book product);
+        Task<ServiceResponse<Book>> UpdateBookAsync(Book product, string token);
+        Task<ServiceResponse<bool>> DeleteBookAsync(int id, string token);
+        Task<ServiceResponse<Book>> GetBookByIdAsync(int id, string token);
+        Task<ServiceResponse<Book>> CreateBookAsync(Book product, string token);
     }
 
     public class PaginationResponse<Book>

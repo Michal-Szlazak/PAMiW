@@ -1,7 +1,9 @@
 ﻿@page "/books/createbook"
 @attribute [Authorize(Roles = "Admin")]
+@using Blazored.LocalStorage;
 @inject IBookService BookService
 @inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorageService
 
 <h3>Create Book</h3>
 
@@ -27,7 +29,8 @@ else
     async Task HandleValidSubmit()
     {
         isLoading = true;
-        var response = await BookService.CreateBookAsync(Book);
+        string token = await LocalStorageService.GetItemAsync<string>("authToken");
+        var response = await BookService.CreateBookAsync(Book, token);
         if (response.Success)
             NavigationManager.NavigateTo("/books/booksList");
         else

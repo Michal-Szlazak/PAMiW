@@ -2,27 +2,38 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyMauiApp.SaveBookView"
-             Title="SaveBookView"
-             BackgroundColor="DarkGray">
-    <VerticalStackLayout>
+             BackgroundColor="LightGray">
+
+    <VerticalStackLayout Spacing="10" Padding="20">
         <Label 
-            Text="Save book"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+            Text="Save book" FontSize="30" 
+FontAttributes="Bold" 
+TextColor="#2c3e50"
+HorizontalOptions="Center" 
+VerticalOptions="CenterAndExpand"
+Margin="0,10,0,20"
+Padding="10"
+FontFamily="Arial, sans-serif" />
+        <Frame Margin="5" Padding="10" BackgroundColor="White" BorderColor="DarkGray" CornerRadius="5">
+            <StackLayout BackgroundColor="White" Padding="20" Spacing="10">
 
-        <StackLayout Padding="20">
+                <Label Text="Book Details" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,0,0,20" TextColor="Black"/>
+                <Label Text="Title:" FontSize="18" TextColor="Black" />
+                <Entry Placeholder="Title" Text="{Binding Book.Title}" BackgroundColor="LightBlue" TextColor="Black"/>
+                <Label Text="Author:" FontSize="18" TextColor="Black" />
+                <Entry Placeholder="Author" Text="{Binding Book.Author}" BackgroundColor="LightBlue" TextColor="Black"/>
+                <Label Text="Description:" FontSize="18" TextColor="Black" />
+                <Entry Placeholder="Description" Text="{Binding Book.Description}" BackgroundColor="LightBlue" TextColor="Black"/>
 
-            <Label Text="Book Details" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,0,0,20"/>
-            <Label Text="Title:" FontSize="18" />
-            <Entry Placeholder="Title" Text="{Binding Book.Title}" BackgroundColor="LightBlue"/>
-            <Label Text="Author:" FontSize="18" />
-            <Entry Placeholder="Author" Text="{Binding Book.Author}" BackgroundColor="LightBlue"/>
-            <Label Text="Description:" FontSize="18" />
-            <Entry Placeholder="Description" Text="{Binding Book.Description}" BackgroundColor="LightBlue"/>
+                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Margin="0,20,0,0"
+                BackgroundColor="#007bff" TextColor="White"/>
 
-            <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Margin="0,20,0,0"/>
-
-        </StackLayout>
-
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+    IsVisible="{Binding IsLoading}"
+Color="Blue"
+VerticalOptions="CenterAndExpand"
+HorizontalOptions="CenterAndExpand" />
+            </StackLayout>
+        </Frame>
     </VerticalStackLayout>
 </ContentPage>

@@ -1,7 +1,17 @@
 ﻿@page "/books/editbook/{Id:int}"
 @attribute [Authorize(Roles = "Admin")]
+@using Blazored.LocalStorage
+@inject ILocalStorageService LocalStorageService
 @inject IBookService BookService
 @inject NavigationManager NavigationManager
+
+<style>
+    .mine-btn {
+        width: 120px; /* Adjust width as needed */
+        margin: 10px; /* Adjust margin as needed */
+        font-size: 18px;
+    }
+</style>
 
 <h3>Edit Book</h3>
 
@@ -11,20 +21,14 @@
 }
 else
 {
-    <BookForm book="book" OnValidSubmit="HandleValidSubmit"></BookForm>
-    @if (isLoading)
-    {
-        <Loading />
-    }
-    <button class="btn btn-danger my-btn" @onclick=HandleDelete>Delete</button>
-
-    <style>
-        .my-btn {
-            width: 120px; /* Adjust width as needed */
-            margin: 10px; /* Adjust margin as needed */
-            font-size: 18px;
+ <div>
+        <BookForm book="book" OnValidSubmit="HandleValidSubmit"></BookForm>
+        <button type="button" class="mine-btn btn btn-danger" @onclick=HandleDelete>Delete</button>
+        @if (isLoading)
+        {
+            <Loading />
         }
-    </style>
+ </div>   
 }
 
 
@@ -40,8 +44,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        
         isLoading = true;
-        var response = await BookService.GetBookByIdAsync(Id);
+        string token = await LocalStorageService.GetItemAsync<string>("authToken");
+        var response = await BookService.GetBookByIdAsync(Id, token);
         if (response.Success)
             book = response.Data;
         else
@@ -52,7 +58,8 @@ else
     async Task HandleValidSubmit()
     {
         isLoading = true;
-        var response = await BookService.UpdateBookAsync(book);
+        string token = await LocalStorageService.GetItemAsync<string>("authToken");
+        var response = await BookService.UpdateBookAsync(book, token);
         if (response.Success)
             NavigationManager.NavigateTo("/books/booksList");
         else
@@ -63,7 +70,8 @@ else
     async Task HandleDelete()
     {
         isLoading = true;
-        var response = await BookService.DeleteBookAsync(Id);
+        string token = await LocalStorageService.GetItemAsync<string>("authToken");
+        var response = await BookService.DeleteBookAsync(Id, token);
         if (response.Success)
             NavigationManager.NavigateTo("/books/booksList");
         else

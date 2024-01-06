@@ -18,12 +18,18 @@ namespace MyMauiApp.ViewModels
     {
 
         private readonly IBookService _bookService;
+        private readonly IConnectivity _connectivity;
+        private MessageBox _messageBox;
         [ObservableProperty]
         private BooksViewModel _booksViewModel;
+        [ObservableProperty]
+        bool isLoading = false;
 
-        public SaveBookViewModel(IBookService bookService)
+        public SaveBookViewModel(IBookService bookService, IConnectivity connectivity)
         {
             _bookService = bookService;
+            _connectivity = connectivity;
+            _messageBox = new MessageBox();
         }
 
         [ObservableProperty]
@@ -38,10 +44,20 @@ namespace MyMauiApp.ViewModels
                 Author = book.Author,
                 Description = book.Description,
             };
+            IsLoading = true;
 
-            var result = await _bookService.CreateBookAsync(newBook);
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
+
+            var result = await _bookService.CreateBookAsync(newBook, "");
             if (result.Success)
                 await _booksViewModel.GetBooks();
+
+            IsLoading = false;
         }
 
         public async Task UpdateBook()
@@ -53,9 +69,18 @@ namespace MyMauiApp.ViewModels
                 Title = book.Title,
                 Description = book.Description
             };
+            IsLoading = true;
 
-            await _bookService.UpdateBookAsync(bookToUpdate);
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
+
+            await _bookService.UpdateBookAsync(bookToUpdate, "");
             await _booksViewModel.GetBooks();
+            IsLoading = false;
         }
 
 

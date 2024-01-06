@@ -18,7 +18,7 @@
             <AuthorizeView>
                 <Authorized>
                     <div class="user-info">
-                        <span class="user-info-item">Logged in: @context.User.Identity.Name</span>
+                        <span class="user-info-item">@context.User.Identity.Name</span>
                     </div>
                     <button class="logout-button" @onclick="Logout">Logout</button>
                 </Authorized>

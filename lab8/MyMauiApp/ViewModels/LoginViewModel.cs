@@ -16,16 +16,22 @@ namespace MyMauiApp.ViewModels
     {
 
         private readonly IAuthService _authService;
+        private readonly IConnectivity _connectivity;
+        private MessageBox _messageBox;
 
 
         [ObservableProperty]
         UserLoginDTO userLoginDTO = new UserLoginDTO();
         [ObservableProperty]
         BooksViewModel booksViewModel;
+        [ObservableProperty]
+        bool isLoading = false;
 
-        public LoginViewModel(IAuthService authService)
+        public LoginViewModel(IAuthService authService, IConnectivity connectivity)
         {
             _authService = authService;
+            _connectivity = connectivity;
+            _messageBox = new MessageBox();
             userLoginDTO.Email = "";
             userLoginDTO.Password = "";
         }
@@ -37,6 +43,15 @@ namespace MyMauiApp.ViewModels
         [RelayCommand]
         public async Task Login()
         {
+            IsLoading = true;
+
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _messageBox.ShowMessage("Internet not available!");
+                IsLoading = false;
+                return;
+            }
+
             var result = await _authService.Login(userLoginDTO);
 
             if (result.Success)
@@ -44,12 +59,15 @@ namespace MyMauiApp.ViewModels
                 booksViewModel.IsUserAuthenticated = true;
                 booksViewModel.IsUserNotAuthenticated = false;
                 await SecureStorage.SetAsync("AuthToken", result.Data);
+                await SecureStorage.SetAsync("email", userLoginDTO.Email);
                 await Shell.Current.GoToAsync("../", true);
+                booksViewModel.Email = userLoginDTO.Email;
             }
             else
             {
-                message = result.Message;
+                Message = "Wrong email or password";
             }
+            IsLoading = false;
         }
 
         [RelayCommand]
