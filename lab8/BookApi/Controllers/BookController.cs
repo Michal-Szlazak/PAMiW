@@ -31,8 +31,7 @@ namespace BookApi.Controllers
                 return StatusCode(500, $"Internal server error {result.Message}");
         }
 
-        [HttpGet("{id}")]
-        [Authorize]
+        [HttpGet("{id}")]        
         public async Task<ActionResult<ServiceResponse<Book>>> GetProduct(int id)
         {
 
@@ -45,7 +44,7 @@ namespace BookApi.Controllers
         }
 
         [HttpPut]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<Book>>> UpdateBook([FromBody] Book book)
         {
 
@@ -58,7 +57,7 @@ namespace BookApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<ServiceResponse<Book>>> CreateBook([FromBody] Book book)
         {
             var result = await _bookService.CreateBookAsync(book);
@@ -70,7 +69,7 @@ namespace BookApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<bool>>> DeleteBook([FromRoute] int id)
         {
             var result = await _bookService.DeleteBookAsync(id);

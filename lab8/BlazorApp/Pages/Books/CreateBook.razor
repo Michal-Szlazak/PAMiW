@@ -1,5 +1,5 @@
 ﻿@page "/books/createbook"
-@attribute [Authorize(Roles = "Admin")]
+@attribute [Authorize]
 @using Blazored.LocalStorage;
 @inject IBookService BookService
 @inject NavigationManager NavigationManager

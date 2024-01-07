@@ -56,12 +56,13 @@ namespace MyMauiApp.ViewModels
         {
             _bookService = bookService;
             _authService = authService;
-            _connectivity = connectivity;
             Books = new ObservableCollection<Book>();
             isUserAuthenticated = !string.IsNullOrEmpty(SecureStorage.GetAsync("AuthToken").Result);
             isUserNotAuthenticated = !isUserAuthenticated;
             _messageBox = new MessageBox();
+            _connectivity = connectivity;
             Init();
+            
         }
 
         public async void Init()
@@ -131,7 +132,7 @@ namespace MyMauiApp.ViewModels
             }
 
             string role = await GetUserRoleAsync();
-            if (!"Admin".Equals(role))
+            if (!IsUserAuthenticated)
             {
                 await Shell.Current.GoToAsync(nameof(ErrorView), true);
             } else
@@ -184,7 +185,8 @@ namespace MyMauiApp.ViewModels
                 await Shell.Current.GoToAsync(nameof(ErrorView), true);
             } else
             {
-                await _bookService.DeleteBookAsync(book.Id, "");
+                string token = Task.Run(() => SecureStorage.GetAsync("AuthToken")).GetAwaiter().GetResult();
+                await _bookService.DeleteBookAsync(book.Id, token);
                 await GetBooks();
             }
             
@@ -200,18 +202,11 @@ namespace MyMauiApp.ViewModels
                 return;
             }
 
-            string role = await GetUserRoleAsync();
-            if("".Equals(role))
+            await Shell.Current.GoToAsync(nameof(ShowDetailsView), true, new Dictionary<string, object>
             {
-                await Shell.Current.GoToAsync(nameof(ErrorView), true);
-            } else
-            {
-                await Shell.Current.GoToAsync(nameof(ShowDetailsView), true, new Dictionary<string, object>
-                {
-                    {"Book", book},
-                    {nameof(BooksViewModel), this}
-                });
-            }
+                {"Book", book},
+                {nameof(BooksViewModel), this}
+            });
             
         }
 

@@ -37,7 +37,7 @@ namespace MyMauiApp.ViewModels
 
 
         public async Task CreateBook()
-        {
+            {
             var newBook = new Book()
             {
                 Title = book.Title,
@@ -52,10 +52,15 @@ namespace MyMauiApp.ViewModels
                 IsLoading = false;
                 return;
             }
+            string token = Task.Run(() => SecureStorage.GetAsync("AuthToken")).GetAwaiter().GetResult();
 
-            var result = await _bookService.CreateBookAsync(newBook, "");
+            var result = await _bookService.CreateBookAsync(newBook, token);
             if (result.Success)
-                await _booksViewModel.GetBooks();
+                await BooksViewModel.GetBooks();
+            else
+            {
+                _messageBox.ShowMessage("Incorrect input! Book wasn't created.");
+            }
 
             IsLoading = false;
         }
@@ -77,9 +82,9 @@ namespace MyMauiApp.ViewModels
                 IsLoading = false;
                 return;
             }
-
-            await _bookService.UpdateBookAsync(bookToUpdate, "");
-            await _booksViewModel.GetBooks();
+            string token = Task.Run(() => SecureStorage.GetAsync("AuthToken")).GetAwaiter().GetResult();
+            await _bookService.UpdateBookAsync(bookToUpdate, token);
+            await BooksViewModel.GetBooks();
             IsLoading = false;
         }
 
@@ -87,15 +92,15 @@ namespace MyMauiApp.ViewModels
         [RelayCommand]
         public async Task Save()
         {
-            if (book.Id == 0)
+            if (Book.Id == 0)
             {
-                CreateBook();
+                await CreateBook();
                 await Shell.Current.GoToAsync("../", true);
 
             }
             else
             {
-                UpdateBook();
+                await UpdateBook();
                 await Shell.Current.GoToAsync("../", true);
             }
 
