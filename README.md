@@ -23,12 +23,20 @@ Zaimplementowane:
  - spójność wizualna: aplikacje wyświetlają informacje w zbliżony sposób, mają podobną paletę kolorów oraz responsywność na działania użytkownika.
  - Odpowiedź Interfejsu: Długie operacje są sygnalizowane ikoną ładowania, brak internetu również jest sygnalizowany.
  - Walidacja danych: podstawowe informowanie użytkownika o błędnie wypełnionym formularzu zostało zaimplementowane.
+  
+Pominięte:
+ - Wykorzystanie Gotowych Szablonów: Możliwość stosowania i wdrażania gotowych szablonów.
+ - Wysokiej Jakości Ikony i Grafika.
 
 ### 4. Ustawienia Użytkownika
 Nie zostały zaimplementowane.
+ - Wielojęzyczność: Dodanie obsługi wielu języków, np. angielskiego i polskiego.
+ - Tryb Jasny/Ciemny: Możliwość wyboru między jasnym a ciemnym motywem interfejsu.
 
 ### 5. Opcje Logowania/Rejestracji
 Opcje logowania i rejestracji jedynie w obrębie Rest Api.
+Nie zaimplementowane:
+ - Implementacja opcji logowania i rejestracji poprzez Facebook, Google, Microsoft.
 
 ### 6. Kompatybilność Aplikacji Mobilnej
 Aplikacja mobilna MAUI jest kompatybilna z wcześniej wymienionym REST API i działa na Androidzie, Windowsie oraz MacOS.
@@ -38,3 +46,6 @@ Aplikacja mobilna wymaga dostępu do informacji o połączeniu sieciowym.
 
 ###  8. Warstwa Serwisów Dla Aplikacji Webowej i Mobilnej
 Obie aplikacje (Maui oraz Blazor) korzystają z wspólnych implementacji serwisów AuthService oraz BookService.
+
+### Dodatkowo
+Zabezpieczenia i sprawdzanie tokenów JWT oraz ról w tych tokenach zostało zaimplementowane zarówno w aplikacjach jak i w REST API.
