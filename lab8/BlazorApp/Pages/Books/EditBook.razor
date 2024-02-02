@@ -1,0 +1,81 @@
+﻿@page "/books/editbook/{Id:int}"
+@attribute [Authorize(Roles = "Admin")]
+@using Blazored.LocalStorage
+@inject ILocalStorageService LocalStorageService
+@inject IBookService BookService
+@inject NavigationManager NavigationManager
+
+<style>
+    .mine-btn {
+        width: 120px; /* Adjust width as needed */
+        margin: 10px; /* Adjust margin as needed */
+        font-size: 18px;
+    }
+</style>
+
+<h3>Edit Book</h3>
+
+@if (book == null)
+{
+    <p><em>@message</em></p>
+}
+else
+{
+ <div>
+        <BookForm book="book" OnValidSubmit="HandleValidSubmit"></BookForm>
+        <button type="button" class="mine-btn btn btn-danger" @onclick=HandleDelete>Delete</button>
+        @if (isLoading)
+        {
+            <Loading />
+        }
+ </div>   
+}
+
+
+
+@code {
+    private bool isLoading = false;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Book book;
+    private string message = "Loading book...";
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        isLoading = true;
+        string token = await LocalStorageService.GetItemAsync<string>("authToken");
+        var response = await BookService.GetBookByIdAsync(Id, token);
+        if (response.Success)
+            book = response.Data;
+        else
+            message = response.Message;
+        isLoading = false;
+    }
+
+    async Task HandleValidSubmit()
+    {
+        isLoading = true;
+        string token = await LocalStorageService.GetItemAsync<string>("authToken");
+        var response = await BookService.UpdateBookAsync(book, token);
+        if (response.Success)
+            NavigationManager.NavigateTo("/books/booksList");
+        else
+            message = response.Message;
+        isLoading = false;
+    }
+
+    async Task HandleDelete()
+    {
+        isLoading = true;
+        string token = await LocalStorageService.GetItemAsync<string>("authToken");
+        var response = await BookService.DeleteBookAsync(Id, token);
+        if (response.Success)
+            NavigationManager.NavigateTo("/books/booksList");
+        else
+            message = response.Message;
+        isLoading = false;
+    }
+}

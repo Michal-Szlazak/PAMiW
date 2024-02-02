@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyMauiApp.MainPage"
+             BackgroundColor="#f8f9fa">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="10">
+
+            <StackLayout Orientation="Horizontal" 
+             HorizontalOptions="FillAndExpand"
+                VerticalOptions="Start" 
+             BackgroundColor="#3a0647"
+                    Padding="10"
+                         
+                    >
+
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                    <Frame Margin="5" Padding="0" BackgroundColor="White" HorizontalOptions="End" BorderColor="DarkGray" CornerRadius="5" IsVisible="{Binding IsUserAuthenticated}">
+                        <Label Text="{Binding Email}" 
+                FontSize="20" 
+                FontAttributes="Bold" 
+                TextColor="#2c3e50"
+                HorizontalOptions="Center" 
+                VerticalOptions="CenterAndExpand"
+                Padding="5"
+                Margin="3"
+                FontFamily="Arial, sans-serif"
+                IsVisible="{Binding IsUserAuthenticated}"/>
+                    </Frame>
+
+                    <Button Text="Logout" Command="{Binding LogoutCommand}" 
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                BackgroundColor="#dc3545" 
+                TextColor="White"
+                IsVisible="{Binding IsUserAuthenticated}" />
+
+                    <Button Text="Login" Command="{Binding LoginCommand}" 
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                BackgroundColor="#007bff"
+                TextColor="White"
+                IsVisible="{Binding IsUserNotAuthenticated}" />
+
+                    <Button Text="Register" Command="{Binding RegisterCommand}" 
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Margin="0,0,10,0"
+                BackgroundColor="#007bff"
+                TextColor="White"
+                IsVisible="{Binding IsUserNotAuthenticated}" />
+                </StackLayout>
+            </StackLayout>
+
+
+            <Label Text="Book List" 
+                   FontSize="30" 
+                   FontAttributes="Bold" 
+                   TextColor="#2c3e50"
+                   HorizontalOptions="Center" 
+                   VerticalOptions="CenterAndExpand"
+                   Margin="0,10,0,20"
+                   Padding="10"
+                   FontFamily="Arial, sans-serif" />
+
+                <Button Text="Create Book" Command="{Binding CreateBookCommand}" 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    Margin="0,20,0,0"
+                    BackgroundColor="#007bff"
+                    TextColor="White" />
+
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               IsVisible="true"
+                           Color="Blue"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
+            <!-- CollectionView for Books -->
+            <CollectionView x:Name="BooksCollectionView"
+                            ItemsSource="{Binding Books}"
+                            SelectionMode="None"
+                            >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Book Item Layout with Edit and Delete buttons -->
+                        <Frame Margin="10" Padding="10" BackgroundColor="White" BorderColor="DarkGray" CornerRadius="5">
+                            <StackLayout>
+                                <Label Text="{Binding Title}" FontSize="20" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="{Binding Author}" FontSize="16" TextColor="Black"/>
+
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Spacing="10" Margin="1">
+                                    <Button Text="Details" 
+                                            Command="{Binding BindingContext.ShowDetailsCommand, Source={x:Reference BooksCollectionView}}"
+                                            CommandParameter="{Binding .}" 
+                                            HorizontalOptions="FillAndExpand"
+                                            VerticalOptions="CenterAndExpand"
+                                            Margin="0,20,0,0"
+                                            BackgroundColor="#007bff"
+                                            TextColor="White"
+                                            />
+                                    <!-- Edit Button -->
+                                    <Button Text="Edit" 
+                                            Command="{Binding BindingContext.EditBookCommand, Source={x:Reference BooksCollectionView}}"
+                                            CommandParameter="{Binding .}" 
+                                            HorizontalOptions="FillAndExpand"
+                                            VerticalOptions="CenterAndExpand"
+                                            Margin="0,20,0,0"
+                                            BackgroundColor="#007bff"
+                                            TextColor="White"
+                                            />
+                                    <!-- Delete Button -->
+                                    <Button Text="Delete"
+                                            Command="{Binding BindingContext.DeleteBookCommand, Source={x:Reference BooksCollectionView}}"
+                                            CommandParameter="{Binding .}"
+                                            HorizontalOptions="FillAndExpand"
+                                            VerticalOptions="CenterAndExpand"
+                                            Margin="0,20,0,0"
+                                            BackgroundColor="#dc3545"
+                                            TextColor="White"
+                                            />
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Pagination Controls -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Spacing="10">
+                <Button Text="Previous" Command="{Binding LoadPreviousPageCommand}" BackgroundColor="#007bff" TextColor="White" 
+            WidthRequest="100" HeightRequest="40" Padding="5" />
+                <Label Text="{Binding CurrentPage}" FontSize="20" VerticalOptions="CenterAndExpand" FontAttributes="Bold" TextColor="Black"/>
+                <Button Text="Next" Command="{Binding LoadNextPageCommand}" BackgroundColor="#007bff" TextColor="White" 
+            WidthRequest="100" HeightRequest="40"  Padding="5" BorderColor="DarkGrey"/>
+            </StackLayout>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

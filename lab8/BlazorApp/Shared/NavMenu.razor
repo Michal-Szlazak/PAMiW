@@ -1,0 +1,61 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="d-flex justify-content-between align-items-center w-100 h-30 navbar-collapse">
+        <a class="navbar-brand text-white" href="#">BookWebAsm</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home mr-2" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class="oi oi-plus mr-2" aria-hidden="true"></span> Counter
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="books/booksList">
+                <span class="oi oi-list-rich mr-2" aria-hidden="true"></span> Products
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+<style>
+
+    .my-btn {
+        margin: 5px;
+    }
+
+    .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .my-btn {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+        .my-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+</style>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

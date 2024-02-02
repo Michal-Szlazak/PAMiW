@@ -1,0 +1,42 @@
+﻿@page "/books/createbook"
+@attribute [Authorize]
+@using Blazored.LocalStorage;
+@inject IBookService BookService
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorageService
+
+<h3>Create Book</h3>
+
+@if (message != null)
+{
+    <p><em>@message</em></p>
+}
+else
+{
+    <BookForm book="Book" OnValidSubmit="HandleValidSubmit"></BookForm>
+    @if (isLoading)
+    {
+        <Loading />
+    }
+}
+
+@code {
+    private bool isLoading = false;
+
+    private Book Book = new Book();
+    private string? message = null;
+
+    async Task HandleValidSubmit()
+    {
+        isLoading = true;
+        string token = await LocalStorageService.GetItemAsync<string>("authToken");
+        var response = await BookService.CreateBookAsync(Book, token);
+        if (response.Success)
+            NavigationManager.NavigateTo("/books/booksList");
+        else
+            message = response.Message;
+        isLoading = false;
+    }
+
+
+}

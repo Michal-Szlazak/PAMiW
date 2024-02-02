@@ -1,0 +1,57 @@
+﻿
+<EditForm Model="book" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn-save {
+            width: 120px; /* Adjust width as needed */
+            margin: 10px; /* Adjust margin as needed */
+            font-size: 18px;
+        }
+    </style>
+
+    <div class="form-group">
+        <label for="title" class="form-label">Title:</label>
+        <InputText id="title" @bind-Value="book.Title" class="form-control"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="author" class="form-label">Author:</label>
+        <InputText id="author" @bind-Value="book.Author" class="form-control"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="description" class="form-label">Description:</label>
+        <InputTextArea id="description" @bind-Value="book.Description" class="form-control"></InputTextArea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-save">Save</button>
+
+</EditForm>
+
+
+@code {
+
+    [Parameter]
+    public Book book { get; set; }
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+
+}

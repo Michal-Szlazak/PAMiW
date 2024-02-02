@@ -1,0 +1,83 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyMauiApp.RegisterView"
+             BackgroundColor="LightGray">
+
+    <VerticalStackLayout Spacing="15" Padding="20">
+        <Label Text="Register"
+               FontSize="24"
+               FontAttributes="Bold"
+               TextColor="#2c3e50"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand"
+               Margin="0,10,0,20"
+               Padding="10"
+               FontFamily="Arial, sans-serif" />
+
+        <Frame Margin="5" Padding="10" BackgroundColor="White" BorderColor="DarkGray" CornerRadius="5">
+            <!-- Username Entry -->
+            <StackLayout>
+
+                <Frame Padding="0" Margin="5" BackgroundColor="White" BorderColor="DarkGray" CornerRadius="5">
+                    <Entry Placeholder="Username"
+                           x:Name="UsernameEntry"
+                           Text="{Binding UserRegisterDTO.Username}"
+                           HorizontalOptions="FillAndExpand"
+                           TextColor="Black" />
+                </Frame>
+
+                <Frame Padding="0" Margin="5" BackgroundColor="White" BorderColor="DarkGray" CornerRadius="5">
+                    <!-- Email Entry -->
+                    <Entry Placeholder="Email"
+                           x:Name="EmailEntry"
+                           Keyboard="Email"
+                           Text="{Binding UserRegisterDTO.Email}"
+                           HorizontalOptions="FillAndExpand"
+                           TextColor="Black" />
+                </Frame>
+
+                <Frame Padding="0" Margin="5" BackgroundColor="White" BorderColor="DarkGray" CornerRadius="5">
+                    <!-- Password Entry -->
+                    <Entry Placeholder="Password"
+                           x:Name="PasswordEntry"
+                           Text="{Binding UserRegisterDTO.Password}"
+                           IsPassword="True"
+                           HorizontalOptions="FillAndExpand"
+                           TextColor="Black" />
+                </Frame>
+
+                <Frame Padding="0" Margin="5" BackgroundColor="White" BorderColor="DarkGray" CornerRadius="5">
+                    <!-- Confirm Password Entry -->
+                    <Entry Placeholder="Confirm Password"
+                           x:Name="ConfirmPasswordEntry"
+                           Text="{Binding UserRegisterDTO.ConfirmPassword}"
+                           IsPassword="True"
+                           HorizontalOptions="FillAndExpand"
+                           TextColor="Black" />
+                </Frame>
+                <Label Text="{Binding Message}" HorizontalOptions="Center" TextColor="Red"></Label>
+                <!-- Register Button -->
+                <Button Text="Register"
+                        Command="{Binding RegisterCommand}"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        Margin="0,20,0,0"
+                        BackgroundColor="#007bff"
+                        TextColor="White" />
+
+                <Button Text="Return"
+                        Command="{Binding ReturnCommand}"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        Margin="0,20,0,0"
+                        BackgroundColor="#007bff"
+                        TextColor="White" />
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+    IsVisible="{Binding IsLoading}"
+Color="Blue"
+VerticalOptions="CenterAndExpand"
+HorizontalOptions="CenterAndExpand" />
+            </StackLayout>
+        </Frame>
+    </VerticalStackLayout>
+</ContentPage>
